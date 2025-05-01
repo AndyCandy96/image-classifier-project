@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bildklassifikation mit ml5.js</title>
+  <link rel="stylesheet" href="styles/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/ml5@latest/dist/ml5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Bildklassifikation mit ml5.js</h1>
+
+  <section id="upload">
+    <input type="file" id="imageUpload" accept="image/*" />
+    <button id="classifyBtn">Bild klassifizieren</button>
+    <div id="imageContainer">
+      <img id="uploadedImage" src="" alt="Hochgeladenes Bild" />
+    </div>
+  </section>
+
+  <section id="result">
+    <canvas id="resultChart"></canvas>
+    <div id="classificationText"></div>
+  </section>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
