@@ -97,7 +97,7 @@ canvas {
 
 .preview-flex {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 2rem;
   flex-wrap: wrap;
   margin-top: 1rem;
@@ -135,5 +135,43 @@ canvas {
   text-align: justify;
 }
 
+
+.example-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.example-pair {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.example-pair img {
+  width: 300%;
+  max-width: 477px;
+  height: 200px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 1rem;
+  border: 3px solid #000000;
+  border-radius: 10px;
+  
+}
+
+.example-pair canvas {
+  display: block;
+  width: 300px;
+  height: 200px;
+  max-width: 485px;
+  max-height: 205px;
+  border: 3px solid #000000;
+  margin-bottom: 2rem;
+  background: #fff;
+  border-radius: 8px;
+}
 
   
