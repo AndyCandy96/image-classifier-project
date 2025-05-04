@@ -16,9 +16,7 @@
     </h1>
 
     <section id="examples">
-      <h2>Beispiele</h2>
-    
-      <h3>Richtig klassifiziert</h3>
+      <h2>Richtig klassifizierte Beispiele:</h2>
       <div id="correct-examples" class="example-group">
         <div class="example-pair">
           <img id="img-0" src="images/correct1.jpg" class="classify-image" />
@@ -34,7 +32,7 @@
         </div>
       </div>
     
-      <h3>Falsch klassifiziert</h3>
+      <h2>Falsch klassifizierte Beispiele:</h2>
       <div id="wrong-examples" class="example-group">
         <div class="example-pair">
           <img id="img-3" src="images/wrong1.jpeg" class="classify-image" />
@@ -63,10 +61,15 @@
 
     <section id="discussion">
       <h2>Diskussion</h2>
-      <p class="blocksatz">Die meisten Bilder, mit denen ich ml5 getestet habe, wurden mit einer relativ hohen Treffsicherheit richtig klassifiziert. Bilder, auf denen die zu klassifizierenden Objekte nicht stark 
-        isoliert zu sehen sind und sich möglicherweise in einem fließenden Übergang mit dem Hintergrund befinden wurden weniger treffsicher, oder eventuell sogar falsch klassifziert. In diesem
-        Projekt wird beispielsweise ein Pferd als Kuhantilope klassifiziert. Außerdem habe ich festgestellt, dass Tiere wesentlich öfter richtig klassifizert werden als beispielswiese Gebrauchsgegenstände,
-        wie hier die Zigarette. Außerdem gilt logischerweise: Je komplexer und ungenauer das Bild, umso schwerer ist es für ml5 es richtig zu klassifizeren.
+      <p class="blocksatz">Die meisten Bilder, mit denen ich ml5 getestet habe, wurden mit einer relativ hohen Treffsicherheit richtig klassifiziert. Je komplexer und ungenauer das Bild, umso schwerer ist es 
+        für ml5 es richtig zu klassifizeren. Bilder, auf denen die zu klassifizierenden Objekte nicht stark isoliert zu sehen sind und sich möglicherweise in einem fließenden Übergang mit dem Hintergrund befinden 
+        wurden weniger treffsicher, oder eventuell sogar falsch klassifziert. Hier wird beispielsweise ein Pferd als Antilope klassifiziert. Wahrscheinlich, weil diese beiden Tiere in groben Konturen des Körperbaus
+        klare Ähnlichkeiten haben. Insgesamt habe ich aber festgestellt, dass Tiere wesentlich öfter richtig und sicherer klassifizert werden als beispielswiese Gebrauchsgegenstände, wie hier die Zigarette. Dass die 
+        E-Gitarre dennoch äußerst richtig und treffsicher klassifiziert wurde erkläre ich mir, anhand der sehr markanten und unverkennbaren Form. Außerdem gilt, dass je komplexer und ungenauer das Bild ist, es die 
+        Klassifizerung für ml5 schwerer macht. Das drastischste Beispiel ist die Kletterwand. Hier sind unglaublich viele kleine und unscharfe Elemente, welche Augen und Gehirn eines Menschen, sofern das Aussehen 
+        einer Kletterwand bekannt ist, verarbeiten können. Ich vermute, dass ml5 versucht die groben Konturen dieses, noch scheinbar eher unbekannten optischen Gebildes einem Label zuzweisen. Denkbar ist, dass das
+        blauweiße Muster der Wand und dessen Ecken als Kleidungsstück gedeutet werden, während die Klettergriffe als einzelne sehr chaotisch verteilte Punkte wie Flecken auf einer Schürze oder ein sehr ausgefallenes 
+        Muster auf einem Schlafanzug wirken.
       </p>
     </section>
 

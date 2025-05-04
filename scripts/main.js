@@ -20,12 +20,14 @@ const exampleImages = [
 ];
 
 async function classifyExampleImages() {
-  for (const imgObj of exampleImages) {
+  const promises = exampleImages.map(async (imgObj) => {
     const img = document.getElementById(imgObj.id);
     if (!img) {
       console.warn(`⚠️ Bild ${imgObj.id} nicht gefunden.`);
-      continue;
+      return;
     }
+
+    showLoadingIndicator(imgObj.canvas);
 
     try {
       const results = await classifier.classify(img);
@@ -34,16 +36,21 @@ async function classifyExampleImages() {
     } catch (error) {
       console.error(`❌ Fehler bei ${imgObj.id}:`, error);
     }
-  }
+  });
+
+  await Promise.all(promises); // Warte auf alle
 }
+
 
 function createChart(canvasId, results) {
   const ctx = document.getElementById(canvasId).getContext('2d');
+  cancelAnimationFrame(ctx._loadingFrame || 0);
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: results.map(r => r.label),
+      labels: results.map((r) => r.label.split(',')[0].trim()),
       datasets: [{
         label: 'Confidence',
         data: results.map(r => r.confidence),
@@ -182,4 +189,33 @@ function setupDragAndDrop() {
 
   // Klick auf Drop-Zone = Klick auf File Input
   dropZone.addEventListener('click', () => fileInput.click());
+}
+
+function showLoadingIndicator(canvasId) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  let angle = 0;
+
+  const radius = 30;
+  const centerX = ctx.canvas.width / 2;
+  const centerY = ctx.canvas.height / 2;
+
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+  function draw() {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, angle, angle + Math.PI * 1.5);
+    ctx.strokeStyle = '#4F46E5';
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    angle += 0.1;
+    if (angle > Math.PI * 2) angle = 0;
+
+    ctx._loadingFrame = requestAnimationFrame(draw);
+  }
+
+  draw();
 }
