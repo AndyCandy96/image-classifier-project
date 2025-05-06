@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bildklassifikation mit ml5.js</title>
+  <title>Deep Learning EA 1 - Bildklassifikation mit ml5.js</title>
   <link rel="stylesheet" href="styles/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ml5@latest/dist/ml5.min.js"></script>
@@ -11,11 +11,13 @@
 </head>
 <body>
   <main>
-    <h1>Bildklassifikation mit ml5
+    <h1>Deep Learning Einsendeaufgabe 1 - Bildklassifikation mit ml5
       <p id="status"></p>
     </h1>
 
     <section id="examples">
+      <br/>
+      <h2>Aufgabe 1:</h2>
       <h2>Richtig klassifizierte Beispiele:</h2>
       <div id="correct-examples" class="example-group">
         <div class="example-pair">
@@ -47,35 +49,67 @@
           <canvas id="chart-5"></canvas>
         </div>
       </div>
+
+      <h2>Aufgabe 2:</h2>
+      <h2>Eigenes Bild hochladen</h2>
     </section>
     
 
     <section id="upload-section">
-      <h2>Eigenes Bild hochladen</h2>
+      
       <div id="drop-zone">
         <p>📷 Ziehe ein Bild hierher oder klicke zum Hochladen</p>
         <input type="file" id="fileElem" accept="image/*" />
       </div>
+      <p id="upload-error" style="color: red; margin-top: 1rem;"></p>
       <div id="preview-area" class="preview-flex"></div>
     </section>
 
     <section id="discussion">
       <h2>Diskussion</h2>
-      <p class="blocksatz">Die meisten Bilder, mit denen ich ml5 getestet habe, wurden mit einer relativ hohen Treffsicherheit richtig klassifiziert. Je komplexer und ungenauer das Bild, umso schwerer ist es 
-        für ml5 es richtig zu klassifizeren. Bilder, auf denen die zu klassifizierenden Objekte nicht stark isoliert zu sehen sind und sich möglicherweise in einem fließenden Übergang mit dem Hintergrund befinden 
-        wurden weniger treffsicher, oder eventuell sogar falsch klassifziert. Hier wird beispielsweise ein Pferd als Antilope klassifiziert. Wahrscheinlich, weil diese beiden Tiere in groben Konturen des Körperbaus
-        klare Ähnlichkeiten haben. Insgesamt habe ich aber festgestellt, dass Tiere wesentlich öfter richtig und sicherer klassifizert werden als beispielswiese Gebrauchsgegenstände, wie hier die Zigarette. Dass die 
-        E-Gitarre dennoch äußerst richtig und treffsicher klassifiziert wurde erkläre ich mir, anhand der sehr markanten und unverkennbaren Form. Außerdem gilt, dass je komplexer und ungenauer das Bild ist, es die 
-        Klassifizerung für ml5 schwerer macht. Das drastischste Beispiel ist die Kletterwand. Hier sind unglaublich viele kleine und unscharfe Elemente, welche Augen und Gehirn eines Menschen, sofern das Aussehen 
-        einer Kletterwand bekannt ist, verarbeiten können. Ich vermute, dass ml5 versucht die groben Konturen dieses, noch scheinbar eher unbekannten optischen Gebildes einem Label zuzweisen. Denkbar ist, dass das
-        blauweiße Muster der Wand und dessen Ecken als Kleidungsstück gedeutet werden, während die Klettergriffe als einzelne sehr chaotisch verteilte Punkte wie Flecken auf einer Schürze oder ein sehr ausgefallenes 
-        Muster auf einem Schlafanzug wirken.
+      <p class="blocksatz">Die Bildklassifikation mit ml5 lieferte solide Ergebnisse und eine relativ hohe Treffsicherheit, insbesondere bei klar erkennbaren und stark isolierten Objekten und Abbildungen von Tieren, was auf eine gute Repräsentation im Trainingsdatensatz schließen lässt. Je mehr Details, Überlagerungen oder uneindeutige Strukturen ein Bild enthält, also je unruhiger und komplexer es ist, desto schwerer fällt es dem Modell, richtig zu klassifizieren. Sind die zu klassifizierenden 
+        Objekte nicht stark isoliert zu sehen beziehungsweise befinden sich in einem fließenden Übergang mit dem Hintergrund, fällt eine Vorhersage schwerer. Hier wird beispielsweise ein Pferd als Antilope klassifiziert, vermutlich aufgrund ähnlicher Umrissformen und semantischer Verwandtschaft. Interessant war außerdem, dass markante Gegenstände mit charakteristischer Form, wie die E-Gitarre, zuverlässig erkannt wurden, während alltagsnahe und eher trivial geformte Objekte wie Zigaretten häufiger 
+        falsch klassifiziert wurden. Dass Komplexität und Unschärfe die Klassifizierung erschwert, zeigt die Kletterwand mit vielen kleinen und unscharfen Elementen am drastischsten. Ich vermute, dass ml5 versucht, die groben Konturen dieses noch scheinbar eher unbekannten optischen Gebildes einem Label zuzuweisen. Denkbar ist, dass das blauweiße Muster der Wand und dessen Ecken als Kleidungsstück gedeutet werden, während die Klettergriffe als einzelne sehr chaotisch verteilte Punkte wie Flecken auf 
+        einer Schürze, oder ein sehr ausgefallenes Muster auf einem Schlafanzug wirken. Der Einsatz von Bildern außerhalb des Trainingsdatensatzes war im Hinblick auf Grenzen und Generalisierungsfähigkeit des Modells  besonders spannend und verdeutlicht, wie sehr ml5 auf klare visuelle Strukturen angewiesen ist. Typische Fehlerursachen scheinen unscharfe Kanten, visuelle Ablenkung durch Hintergrundelemente und ungewohnte Perspektiven zu sein.
       </p>
     </section>
 
     <section id="documentation">
       <h2>Dokumentation</h2>
-      <p>Dieses ml5.js-Projekt besteht im Wesentlichen aus einer main.js Datei mit der Logik, einer style.css Datei für das Styling und einer index.html Datei für die Struktur der Weboberfläche.</p>
+      <h2>Technisch:</h2>
+      <p>Die wichtigsten Dateien in diesem ml5.js-Projekt sind:
+        <ul>
+          <li><b>main.js</b> mit der Java-Script Logik der Seite</li>
+          <li><b>style.css</b> für das Styling in CSS</li>
+          <li><b>index.html</b> für die Struktur der Weboberfläche</li> 
+        </ul>
+        Folgende externe Frameworks wurden eingebunden:
+        <ul>
+          <li><b>ml5:</b> Bildklassifikation, MobileNet-Modell, ImageNet-Datensatz</li>
+          <li><b>Chart.js</b> Visualisierung der Klassifikationsergebnisse</li>
+        </ul>
+      </p>
+
+      <h2>Fachlich:</h2>
+      <p>Entwicklungsschritte:
+        <ul>
+          <li>Ausprobieren und "Herumspielen" mit ml5</li>
+          <li>Entwicklung der Grundstruktur (Ordner und Dateien)</li>
+          <li>Hosting auf GitHub-Pages</li> 
+          <li>Auswahl geeigneter Bilder</li>
+          <li>Umsetzung und Styling entsprechend der Anforderungen</li>
+          <li>weiteres Styling und Optimierung</li>
+        </ul>
+
+        Hilfsmittel und Quellen:
+        <ul>
+          <li>https://archive-docs.ml5js.org/#/reference/image-classifier</li>
+          <li>https://docs.ml5js.org/#/</li>
+          <li>https://www.youtube.com/watch?v=pbjR20eTLVs</li> 
+          <li>https://stackoverflow.com</li>
+          <li>https://chatgpt.com</li>
+        </ul>
+      </p>
     </section>
   </main>
 </body>

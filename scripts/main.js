@@ -3,7 +3,7 @@ let previewImg;
 
 window.addEventListener('DOMContentLoaded', async () => {
   classifier = await ml5.imageClassifier('MobileNet');
-  console.log('✅ Modell geladen');
+  console.log('Modell geladen');
 
   classifyExampleImages();
   setupUploadHandler();
@@ -27,14 +27,14 @@ async function classifyExampleImages() {
       return;
     }
 
-    showLoadingIndicator(imgObj.canvas);
+    showCircularSpinner(imgObj.canvas);
 
     try {
       const results = await classifier.classify(img);
-      console.log(`✅ Ergebnisse für ${imgObj.id}:`, results);
+      console.log(`Ergebnisse für ${imgObj.id}:`, results);
       createChart(imgObj.canvas, results.slice(0, 3));
     } catch (error) {
-      console.error(`❌ Fehler bei ${imgObj.id}:`, error);
+      console.error(`Fehler bei ${imgObj.id}:`, error);
     }
   });
 
@@ -43,8 +43,10 @@ async function classifyExampleImages() {
 
 
 function createChart(canvasId, results) {
+  hideLoadingIndicator(canvasId);  // 🔁 HIER wird der Spinner gestoppt
+
   const ctx = document.getElementById(canvasId).getContext('2d');
-  cancelAnimationFrame(ctx._loadingFrame || 0);
+  cancelAnimationFrame(ctx._loadingFrame || 0); // Falls du auch AnimationFrames benutzt hast
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   new Chart(ctx, {
@@ -115,17 +117,31 @@ function createChart(canvasId, results) {
   });
 }
 
+
+function isValidImageFile(file) {
+  return file && file.type.startsWith('image/');
+}
+
 function setupUploadHandler() {
   const input = document.getElementById('fileElem');
   const previewArea = document.getElementById('preview-area');
+  const errorElem = document.getElementById('upload-error');
 
   input.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    if (!isValidImageFile(file)) {
+      showError('❌ Ungültiges Format. Bitte lade ein Bild hoch (z. B. JPG, PNG, GIF, BMP, WebP).');
+      input.value = ''; // Reset für erneutes Hochladen
+      return;
+    }
+
+    errorElem.textContent = '';
     handleFile(file);
   });
 
-  function handleFile(file) {
+  async function handleFile(file) {
     const reader = new FileReader();
     reader.onload = (event) => {
       previewArea.innerHTML = '';
@@ -134,14 +150,10 @@ function setupUploadHandler() {
       previewImg.classList.add('classify-image');
       previewArea.appendChild(previewImg);
 
-      // 👉 Drop-Zone ausblenden
-      ///document.getElementById('drop-zone').classList.add('hidden');
-
-      // Klassifizieren, sobald Bild geladen
       previewImg.onload = async () => {
         try {
           const results = await classifier.classify(previewImg);
-          console.log('✅ Upload-Ergebnis:', results);
+          console.log('Upload-Ergebnis:', results);
 
           const chartCanvas = document.createElement('canvas');
           chartCanvas.id = 'userChart';
@@ -149,19 +161,28 @@ function setupUploadHandler() {
 
           createChart('userChart', results.slice(0, 3));
         } catch (err) {
-          console.error('❌ Fehler bei Klassifikation:', err);
+          console.error('Fehler bei Klassifikation:', err);
+          showError('❌ Fehler bei der Klassifikation.');
         }
       };
     };
     reader.readAsDataURL(file);
   }
+
+  function showError(message) {
+    errorElem.textContent = message;
+    setTimeout(() => {
+      errorElem.textContent = '';
+    }, 5000);
+  }
 }
+
 
 function setupDragAndDrop() {
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('fileElem');
+  const errorElem = document.getElementById('upload-error');
 
-  // Drag-Events
   ['dragenter', 'dragover'].forEach(eventName => {
     dropZone.addEventListener(eventName, (e) => {
       e.preventDefault();
@@ -176,46 +197,65 @@ function setupDragAndDrop() {
     }, false);
   });
 
-  // Drop-Event
   dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    if (file) {
-      fileInput.files = e.dataTransfer.files;
-      const event = new Event('change');
-      fileInput.dispatchEvent(event); // Löst Upload-Handler aus
+    if (!file) return;
+
+    if (!isValidImageFile(file)) {
+      errorElem.textContent = '❌ Ungültiges Format. Bitte ziehe ein Bild (JPG, PNG, etc.) in die Dropzone.';
+      setTimeout(() => errorElem.textContent = '', 5000);
+      return;
     }
+
+    errorElem.textContent = '';
+    fileInput.files = e.dataTransfer.files;
+    fileInput.dispatchEvent(new Event('change'));
   });
 
-  // Klick auf Drop-Zone = Klick auf File Input
   dropZone.addEventListener('click', () => fileInput.click());
 }
 
-function showLoadingIndicator(canvasId) {
-  const ctx = document.getElementById(canvasId).getContext('2d');
+
+
+function showCircularSpinner(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const radius = 30;
   let angle = 0;
 
-  const radius = 30;
-  const centerX = ctx.canvas.width / 2;
-  const centerY = ctx.canvas.height / 2;
+  const interval = setInterval(() => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(angle);
 
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    for (let i = 0; i < 12; i++) {
+      const alpha = i / 12;
+      ctx.beginPath();
+      ctx.arc(0, -radius, 4, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(79, 70, 229, ${alpha})`;
+      ctx.fill();
+      ctx.rotate((Math.PI * 2) / 12);
+    }
 
-  function draw() {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, angle, angle + Math.PI * 1.5);
-    ctx.strokeStyle = '#4F46E5';
-    ctx.lineWidth = 6;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-
+    ctx.restore();
     angle += 0.1;
-    if (angle > Math.PI * 2) angle = 0;
+  }, 50);
 
-    ctx._loadingFrame = requestAnimationFrame(draw);
-  }
-
-  draw();
+  canvas.dataset.loadingInterval = interval;
 }
+
+function hideLoadingIndicator(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const interval = canvas.dataset.loadingInterval;
+  if (interval) {
+    clearInterval(interval);
+    delete canvas.dataset.loadingInterval;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+
+
