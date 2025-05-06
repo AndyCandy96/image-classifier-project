@@ -38,15 +38,15 @@ async function classifyExampleImages() {
     }
   });
 
-  await Promise.all(promises); // Warte auf alle
+  await Promise.all(promises); 
 }
 
 
 function createChart(canvasId, results) {
-  hideLoadingIndicator(canvasId);  // 🔁 HIER wird der Spinner gestoppt
+  hideLoadingIndicator(canvasId); 
 
   const ctx = document.getElementById(canvasId).getContext('2d');
-  cancelAnimationFrame(ctx._loadingFrame || 0); // Falls du auch AnimationFrames benutzt hast
+  cancelAnimationFrame(ctx._loadingFrame || 0); 
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   new Chart(ctx, {
